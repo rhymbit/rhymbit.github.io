@@ -1,0 +1,42 @@
+---
+import BaseHeader from "@/headers/base-header.astro";
+import "@/styles/global.css";
+import type { HTMLAttributes } from "astro/types";
+import "lenis/dist/lenis.css";
+import "@/styles/fonts/font-noto-sans.css";
+
+interface Props extends HTMLAttributes<"body"> {
+  title?: string;
+}
+
+const { title, class: className, ...attrs } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <slot name="header">
+      <BaseHeader
+        title={title ?? "My Blog Posts"}
+        description="My Blog Posts"
+      />
+    </slot>
+  </head>
+
+  <body class={`min-h-screen ${className}`} {...attrs}>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+
+  :root {
+    font-family: "Noto Sans", sans-serif;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+</style>

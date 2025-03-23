@@ -1,0 +1,113 @@
+---
+type Props = {
+  title: string;
+  description: string;
+  meta?: {
+    title?: string;
+    description?: string;
+  };
+  imagePublic?: {
+    filepath: string;
+    alt: string;
+  };
+  canonicalURL?: string;
+  openGraph?: {
+    type?: "website" | "article" | "profile" | "video" | "music";
+    url?: string;
+    siteName?: string;
+    locale?: string;
+  };
+  twitterCard?: {
+    cardType?: "summary_large_image" | "summary" | "app" | "player";
+    site?: string;
+    creator?: string;
+  };
+  keywords?: string[];
+  robots?: "index" | "noindex";
+};
+
+const {
+  title,
+  description,
+  meta,
+  imagePublic,
+  canonicalURL = Astro.url.href,
+  openGraph = {
+    type: "website",
+    url: Astro.props.canonicalURL ?? Astro.url.href,
+    siteName: "My Blog",
+    locale: "en",
+  },
+  twitterCard = {
+    cardType: "summary_large_image",
+    site: "@rhymbit",
+    creator: "@rhymbit",
+  },
+  keywords = [],
+  robots = "index",
+} = Astro.props;
+
+
+/** Public Social Card Image */
+// Default Image
+let imagePublicDefault = {
+  filepath: "images/social-cards/todo!.png",
+  alt: "My Blog Logo",
+};
+
+let imageSrc = `${Astro.url.origin}/${imagePublicDefault.filepath}`;
+let imageAlt = `${imagePublicDefault.alt}`;
+if (imagePublic) {
+  // remove any leading forward slash
+  const filepathSanitized = imagePublic.filepath.replace(/^\//, "");
+  imageSrc = `${Astro.url.origin}/${filepathSanitized}`;
+  imageAlt = imagePublic.alt;
+}
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<link rel="icon" href="/favicon.svg" type="image/svg" />
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<title>{title}</title>
+<meta name="title" content={meta?.title ?? title} />
+<meta name="description" content={meta?.description ?? description} />
+<link rel="canonical" href={canonicalURL} />
+
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+<!-- TODO -->
+<!-- Alternate Lang Codes -->
+<!-- TODO -->
+
+<!-- Open Graph Tags -->
+<meta property="og:title" content={meta?.title ?? title} />
+<meta property="og:description" content={meta?.description ?? description} />
+<meta property="og:type" content={openGraph.type} />
+<meta property="og:url" content={openGraph.url} />
+<meta property="og:site_name" content={openGraph.siteName} />
+<meta property="og:locale" content={openGraph.locale} />
+<meta property="og:image" content={imageSrc} />
+<meta property="og:image:secure_url" content={imageSrc} />
+<meta property="og:image:alt" content={imageAlt} />
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content={twitterCard.cardType} />
+<meta name="twitter:site" content={twitterCard.site} />
+<meta name="twitter:creator" content={twitterCard.creator} />
+<meta name="twitter:title" content={meta?.title ?? title} />
+<meta name="twitter:description" content={meta?.description ?? description} />
+<meta name="twitter:image" content={imageSrc} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<!-- Pinterest Rich Pin -->
+<meta name="pinterest-rich-pin" content="true" />
+<meta name="pinterest:description" content={meta?.description ?? description} />
+
+<!-- Robots Meta Tag -->
+{robots === "index" && <meta name="robots" content="index,follow" />}
+{robots === "noindex" && <meta name="robots" content="noindex,nofollow" />}
+
+<slot />
