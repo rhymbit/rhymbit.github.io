@@ -13,7 +13,6 @@ import icon from 'astro-icon';
 export default defineConfig({
 
   site: 'https://rhymbit.github.io',
-  base: 'blog',
 
   vite: {
     plugins: [tailwindcss()]
