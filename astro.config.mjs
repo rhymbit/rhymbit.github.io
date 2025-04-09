@@ -11,6 +11,10 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
+
+  site: 'https://rhymbit.github.io',
+  base: 'blog',
+
   vite: {
     plugins: [tailwindcss()]
   },
