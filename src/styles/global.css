@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui";
 @plugin './plugins/fluid-typography-plugin.ts';
-@plugin './plugins/additional-styles-plugin.ts.ts';
+@plugin './plugins/additional-styles-plugin.ts';
+@plugin '@tailwindcss/typography';
 
 @theme {
   --breakpoint-xs: 370px; /* Tiny Phones */

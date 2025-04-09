@@ -1,6 +1,6 @@
 ---
-title: First Post
-description: This is my first post
+title: pnpm Sucks With Firebase
+description: pnpm might throw build errors when using firebase
 pubDate: 2025-03-23
 socialImage:
   filepathPublic: "/images/first-post.jpg"
@@ -9,4 +9,17 @@ timeToRead: 3 mins
 tags: ["first", "post"]
 ---
 
-## My First Post
+## Pnpm Sucks with Firebase
+
+When using firebase in any project, for example in your astro project,
+and things just straight up not work for some reason or other,
+then just try :-
+- remove/delete `node_modules` folder
+- `pnpm install --shamefully-hoist` instead of normal `pnpm install`
+
+**Pnpm** has this strict module structure and **firebase** has deep 
+dependencies that vite cannot resolve (which uses rollup under the hood) if
+dependencies were installed using `pnpm install` instead of `pnpm install --shamefully-hoist`.
+
+The `pnpm install --shamefully-hoist` install the dependencies just like `npm install`,
+which is messy, but that's what works for now.

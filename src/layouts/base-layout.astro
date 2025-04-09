@@ -2,8 +2,9 @@
 import BaseHeader from "@/headers/base-header.astro";
 import "@/styles/global.css";
 import type { HTMLAttributes } from "astro/types";
-import "lenis/dist/lenis.css";
 import "@/styles/fonts/font-noto-sans.css";
+import Navbar from "@/components/layout/navbar/navbar.astro";
+import Footer from "@/components/layout/footer/footer.astro";
 
 interface Props extends HTMLAttributes<"body"> {
   title?: string;
@@ -24,7 +25,10 @@ const { title, class: className, ...attrs } = Astro.props;
   </head>
 
   <body class={`min-h-screen ${className}`} {...attrs}>
-    <slot />
+
+    <Navbar />
+      <slot />
+    <Footer />
   </body>
 </html>
 

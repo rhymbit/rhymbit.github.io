@@ -1,0 +1,41 @@
+---
+import BaseLayout from "@/layouts/base-layout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection, render } from "astro:content";
+
+export const getStaticPaths = (async () => {
+  const allPosts = await getCollection("posts");
+
+  const paths = allPosts.map((post) => ({
+    params: {
+      postId: post.id,
+    },
+    props: {
+      post: post,
+    },
+  }));
+
+  return paths;
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+
+const { Content } = await render(post);
+---
+
+<BaseLayout class="flex flex-col">
+  <main
+    class="px-2 w-full h-full grow flex flex-col gap-y-28 overflow-x-clip 2xl:gap-y-44"
+  >
+    <section class="my-10 flex flex-col items-center gap-y-5">
+      <div
+        class="
+          prose xl:prose-xl 3xl:prose-2xl prose-strong:px-2 prose-strong:py-0.5 prose-strong:font-normal prose-strong:bg-primary prose-strong:text-primary-content
+          prose-code:text-amber-300
+        "
+      >
+        <Content />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

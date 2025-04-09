@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props;
+
+const { title, description } = post.data;
+---
+
+<a href={`/${post.id}`}>
+  <div class="px-6 py-4 flex flex-col bg-base-300 rounded-box">
+    <h3 class="text-h5">{title}</h3>
+    <p>{description}</p>
+  </div>
+</a>
