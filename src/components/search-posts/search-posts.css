@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@plugin '@/styles/plugins/fluid-typography-plugin.ts';
+
+@plugin "daisyui" {
+  themes: black --default;
+}
+
+.search-posts-li {
+  @apply w-full flex;
+}
+
+.search-posts-a {
+  @apply w-full px-2 py-2 flex flex-col items-start gap-y-0.5 hover:bg-base-content hover:text-base-100 duration-150;
+}
+
+.search-posts-a-title {
+  @apply text-p;
+}
+
+.search-posts-a-description {
+  @apply text-xs;
+}

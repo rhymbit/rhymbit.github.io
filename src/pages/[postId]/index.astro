@@ -1,4 +1,5 @@
 ---
+import BaseHeader from "@/headers/base-header.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
@@ -24,18 +25,32 @@ const { Content } = await render(post);
 ---
 
 <BaseLayout class="flex flex-col">
+  <BaseHeader
+    slot="header"
+    title={post.data.title}
+    description={post.data.description}
+  />
   <main
     class="px-2 w-full h-full grow flex flex-col gap-y-28 overflow-x-clip 2xl:gap-y-44"
   >
     <section class="my-10 flex flex-col items-center gap-y-5">
       <div
-        class="
-          prose xl:prose-xl 3xl:prose-2xl prose-strong:px-2 prose-strong:py-0.5 prose-strong:font-normal prose-strong:bg-primary prose-strong:text-primary-content
-          prose-code:text-amber-300
-        "
+        class="prose xl:prose-xl 3xl:prose-2xl prose-strong:px-2 prose-strong:py-0.5 prose-strong:font-normal prose-strong:bg-primary prose-strong:text-primary-content
+          prose-code:text-amber-300"
       >
         <Content />
       </div>
+    </section>
+
+    <!-- Pagefind fields, used to support search. DO NOT REMOVE. -->
+    <section data-pagefind-body class="hidden">
+      <span data-pagefind-meta="title">{post.data.title}</span>
+      <span data-pagefind-meta="description">{post.data.description}</span>
+      {
+        post.data.tags && (
+          <span data-pagefind-meta="tags">{post.data.tags.join(",")}</span>
+        )
+      }
     </section>
   </main>
 </BaseLayout>

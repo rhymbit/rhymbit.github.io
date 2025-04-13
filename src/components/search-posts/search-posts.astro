@@ -1,0 +1,181 @@
+---
+import { Icon } from "astro-icon/components";
+import { getCollection } from "astro:content";
+import DevModeSearchListElements from "./_dev-mode-search-list-elements.astro";
+import "./search-posts.css";
+
+const posts = await getCollection("posts");
+
+let searchResults: any = [];
+
+if (import.meta.env.MODE === "development") {
+  searchResults = posts.map((post) => ({
+    id: post.id,
+    url: post.id,
+    title: post.data.title,
+    description: post.data.description,
+    tags: post.data.tags,
+  }));
+}
+---
+
+<search id="search-posts" class="relative">
+  <div class="border-b-2 border-base-content/70">
+    <label
+      class="w-full sm:min-w-100 input xl:input-lg 2xl:input-xl input-ghost"
+      style="border: none; outline: none;"
+    >
+      <Icon name="search" class="text-h6" />
+      <input
+        id="search-posts-input"
+        type="search"
+        class="peer grow"
+        style="border: none; outline: none;"
+        placeholder="Search"
+      />
+      <kbd class="kbd kbd-sm hidden peer-placeholder-shown:block">⌘</kbd>
+      <kbd class="kbd kbd-sm hidden peer-placeholder-shown:block">K</kbd>
+    </label>
+  </div>
+  <ul
+    id="search-posts-results-ul"
+    class="absolute w-full max-h-80 overflow-y-auto my-2 flex flex-col gap-y-1 bg-neutral"
+    data-search-results-dev-mode={JSON.stringify(searchResults)}
+  >
+    {import.meta.env.MODE === "development" && <DevModeSearchListElements />}
+  </ul>
+</search>
+
+<script is:inline>
+  const THRESHOLD_INPUT_LENGTH = 3;
+  const THRESHOLD_DEBOUNCE = 500;
+
+  /**
+   * For Initializing pagefind script, but only once.
+   * @param {Event} e: Event
+   * @returns `true` if initialized, `false` otherwise
+   */
+  async function initializePagefind(e) {
+    if (e.target.dataset.loaded !== "true") {
+      e.target.dataset.loaded = "true";
+      try {
+        window.pagefind = await import("/pagefind/pagefind.js");
+        window.pagefind.init();
+        return true;
+      } catch (_) {
+        console.log("Pagefind failed to load");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function addSearchResultToUl(ulElem, results) {
+    // clear previous results
+    ulElem.innerHTML = "";
+
+    for (const result of results) {
+      const li = document.createElement("li");
+      li.classList.add("search-posts-li");
+      li.innerHTML = `
+          <a href="${result.url}" class='search-posts-a'>
+            <p class='search-posts-a-title'>${result.title}</p>
+            <p class='search-posts-a-description'>${result.description}</p>
+          </a>
+        `;
+      ulElem.appendChild(li);
+    }
+  }
+
+  function debounce(func, delay = THRESHOLD_DEBOUNCE) {
+    let timeoutId;
+
+    return function (...args) {
+      clearTimeout(timeoutId);
+
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
+
+  const searchPostsSearchElem = document.querySelectorAll("#search-posts");
+
+  searchPostsSearchElem.forEach((searchPostsElem) => {
+    const inputElem = searchPostsElem.querySelector("#search-posts-input");
+    const ulElem = searchPostsElem.querySelector("#search-posts-results-ul");
+    const devModeResults = JSON.parse(ulElem?.dataset.searchResultsDevMode);
+
+    /**
+     * Add event listener for document
+     */
+    document.addEventListener("click", (e) => {
+      // check if inputElem is in focus
+      if (!inputElem.contains(e.target)) {
+        // hide ulElem
+        ulElem.style.display = "none";
+        return;
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.ctrlKey && event.key === "k") {
+        event.preventDefault();
+        inputElem.focus();
+      }
+    });
+
+    /**
+     * Add event handlers for input element
+     */
+    inputElem?.addEventListener("focus", (e) => {
+      e.stopPropagation();
+      ulElem.style.display = "flex";
+    });
+
+    inputElem?.addEventListener("input", async (e) => {
+      e.stopPropagation();
+      // un-hide ulElem
+      ulElem.style.display = "flex";
+
+      const value = e.currentTarget.value;
+
+      if (value.length < THRESHOLD_INPUT_LENGTH) {
+        // no need to search anything
+        return;
+      }
+
+      // check if we're in dev mode
+      if (devModeResults.length > 0) {
+        debounce(() => addSearchResultToUl(ulElem, devModeResults))();
+        return;
+      }
+
+      // initialize pagefind
+      const isInitialized = await initializePagefind(e);
+
+      if (!isInitialized) {
+        console.log("Pagefind failed to initialize. Aborting search.");
+        return;
+      }
+
+      let searchResults = [];
+
+      const pagefindSearch = await window.pagefind.search(value);
+
+      for (const result of pagefindSearch.results) {
+        const data = await result.data();
+
+        searchResults.push({
+          id: result.id,
+          url: data.url,
+          title: data.meta.title,
+          description: data.meta.description,
+          tags: data.meta.tags,
+        });
+      }
+
+      debounce(() => addSearchResultToUl(ulElem, searchResults))();
+    });
+  });
+</script>
