@@ -14,7 +14,6 @@ export const postSchema = defineCollection({
       filepathPublic: z.string(),
       alt: z.string(),
     }),
-    timeToRead: z.string().optional(),
     tags: z.array(z.string()).min(1).optional(),
   }),
 });

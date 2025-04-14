@@ -1,4 +1,5 @@
 ---
+import DateTimeParsed from "@/components/date-time-parsed/date-time-parsed.astro";
 import BaseHeader from "@/headers/base-header.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
 import type { GetStaticPaths } from "astro";
@@ -45,8 +46,11 @@ const { Content } = await render(post);
   >
     <!-- Hero -->
     <section class="max-w-4xl flex flex-col items-center gap-y-7">
-      <!-- heading & description -->
-      <div class="flex flex-col gap-y-2 text-center">
+      <!-- heading, date & description -->
+      <div class="flex flex-col items-center gap-y-3 text-center">
+        <div class="text-p badge badge-primary">
+          <DateTimeParsed date={post.data.pubDate} />
+        </div>
         <h1 class="font-bold leading-tight">{post.data.title}</h1>
         <p class="text-h6">{post.data.description}</p>
       </div>

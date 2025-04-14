@@ -1,0 +1,38 @@
+---
+type Props = {
+  date: string | Date;
+  options?: Intl.DateTimeFormatOptions;
+};
+
+const { date, options } = Astro.props;
+
+function isDateValid(date: Date) {
+  return !isNaN(date.getTime());
+}
+
+function parseDate(date: string | Date) {
+  if (!isDateValid(new Date(date))) {
+    return null;
+  }
+
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    ...options,
+  };
+
+  // return new Intl.DateTimeFormat('en-US', dateTimeOptions).format(date);
+  return new Date(date).toLocaleDateString("en-US", dateTimeOptions);
+}
+
+const parsedDate = parseDate(date);
+---
+
+{
+  parseDate !== null ? (
+    <time datetime={parsedDate}>{parsedDate}</time>
+  ) : (
+    <Fragment>{date}</Fragment>
+  )
+}

@@ -42,7 +42,7 @@ if (import.meta.env.MODE === "development") {
     class="absolute w-full max-h-80 overflow-y-auto my-2 flex flex-col gap-y-1 bg-neutral"
     data-search-results-dev-mode={JSON.stringify(searchResults)}
   >
-    <!-- {import.meta.env.MODE === "development" && <DevModeSearchListElements />} -->
+    {import.meta.env.MODE === "development" && <DevModeSearchListElements />}
   </ul>
 </search>
 
@@ -81,6 +81,7 @@ if (import.meta.env.MODE === "development") {
           <a href="${result.url}" class='search-posts-a'>
             <p class='search-posts-a-title'>${result.title}</p>
             <p class='search-posts-a-description'>${result.description}</p>
+            ${result?.tags ? `<p class="search-posts-a-tags">${result.tags.split(",").join(", ")}</p>`: ''}
           </a>
         `;
       ulElem.appendChild(li);

@@ -1,5 +1,6 @@
 ---
 
+const tags = ['Tag1', 'Tag2', 'Tag3']
 ---
 
 <li class="search-posts-li">
@@ -9,6 +10,9 @@
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum,
       repudiandae molestiae saepe voluptate corrupti earum vel doloremque id
       aspernatur atque?
+    </p>
+    <p class="search-posts-a-tags">
+      {tags.join(', ')}
     </p>
   </a>
 </li>
@@ -20,6 +24,7 @@
       Unde, tempora! At sapiente repellat hic architecto earum inventore
       accusamus.
     </p>
+    <p class="search-posts-a-tags">Tag1, Tag2, Tag3</p>
   </a>
 </li>
 <li class="search-posts-li">
@@ -28,5 +33,6 @@
     <p class="search-posts-a-description">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error, incidunt.
     </p>
+    <p class="search-posts-a-tags">Tag1, Tag2, Tag3</p>
   </a>
 </li>

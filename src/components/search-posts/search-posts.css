@@ -10,13 +10,17 @@
 }
 
 .search-posts-a {
-  @apply w-full px-2 py-2 flex flex-col items-start gap-y-0.5 hover:bg-base-content hover:text-base-100 duration-150;
+  @apply w-full px-2 py-2 flex flex-col items-start gap-y-1 hover:bg-base-content hover:text-base-100 duration-150;
 }
 
 .search-posts-a-title {
-  @apply text-p;
+  @apply text-p font-bold;
 }
 
 .search-posts-a-description {
-  @apply text-xs;
+  @apply text-xs text-pretty max-h-8 overflow-ellipsis overflow-hidden;
+}
+
+.search-posts-a-tags {
+  @apply badge badge-sm bg-base-300 rounded-lg;
 }
