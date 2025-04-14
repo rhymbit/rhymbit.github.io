@@ -1,4 +1,5 @@
 ---
+import DateTimeParsed from "@/components/date-time-parsed/date-time-parsed.astro";
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
@@ -7,12 +8,31 @@ type Props = {
 
 const { post } = Astro.props;
 
-const { title, description, tags } = post.data;
+const { title, description, tags, pubDate } = post.data;
 ---
 
-<a href={`${post.id}`}>
-  <div class="px-6 py-4 flex flex-col bg-base-300 rounded-box">
-    <h3 class="text-h5">{title}</h3>
-    <p>{description}</p>
+<a
+  href={`${post.id}`}
+  class="h-full card bg-base-300 hover:ring-4 hover:ring-yellow-900"
+>
+  <div class="card-body">
+    <h3 class="card-title flex-col items-start">
+      <p class="italic text-sm font-normal">
+        <DateTimeParsed date={pubDate} />
+      </p>
+      <span>
+        {title}
+      </span>
+    </h3>
+    <p class="text-p text-pretty">{description}</p>
+    <div class="flex flex-wrap gap-1">
+      {
+        tags?.map((tag) => (
+          <span class="badge py-3 bg-yellow-950 font-medium rounded-lg">
+            {tag}
+          </span>
+        ))
+      }
+    </div>
   </div>
 </a>

@@ -89,7 +89,7 @@ const { Content } = await render(post);
           prevPost && (
             <a
               href={`${prevPost.id}`}
-              class="h-full card min-w-70 max-w-sm bg-base-300 shadow-sm"
+              class="h-full card min-w-70 max-w-sm bg-base-300 hover:ring-4 hover:ring-yellow-900"
             >
               <div class="card-body flex flex-row justify-around items-center">
                 <div class="-rotate-90">
@@ -109,7 +109,7 @@ const { Content } = await render(post);
           nextPost && (
             <a
               href={`${nextPost.id}`}
-              class="h-full card min-w-70 max-w-sm bg-base-300 shadow-sm"
+              class="h-full card min-w-70 max-w-sm bg-base-300 hover:ring-4 hover:ring-yellow-900"
             >
               <div class="card-body flex flex-row justify-around items-center">
                 <div>

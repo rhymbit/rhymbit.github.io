@@ -22,7 +22,7 @@ if (import.meta.env.MODE === "development") {
 <search id="search-posts" class="relative">
   <div class="border-b-2 border-base-content/70">
     <label
-      class="w-full sm:min-w-100 input xl:input-lg 2xl:input-xl input-ghost"
+      class="w-full min-w-[90svw] sm:min-w-100 input xl:input-lg 2xl:input-xl input-ghost"
       style="border: none; outline: none;"
     >
       <Icon name="search" class="text-h6" />
@@ -42,7 +42,7 @@ if (import.meta.env.MODE === "development") {
     class="absolute w-full max-h-80 overflow-y-auto my-2 flex flex-col gap-y-1 bg-neutral"
     data-search-results-dev-mode={JSON.stringify(searchResults)}
   >
-    {import.meta.env.MODE === "development" && <DevModeSearchListElements />}
+    <!-- {import.meta.env.MODE === "development" && <DevModeSearchListElements />} -->
   </ul>
 </search>
 
