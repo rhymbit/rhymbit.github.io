@@ -14,11 +14,11 @@
 }
 
 .search-posts-a-title {
-  @apply text-p font-bold;
+  @apply text-h6 font-bold;
 }
 
 .search-posts-a-description {
-  @apply text-xs text-pretty max-h-8 overflow-ellipsis overflow-hidden;
+  @apply text-xs xl:text-sm text-pretty max-h-8 xl:max-h-15 overflow-ellipsis overflow-hidden;
 }
 
 .search-posts-a-tags {

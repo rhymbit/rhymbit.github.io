@@ -8,18 +8,26 @@ const allPosts = await getCollection("posts");
 <BaseLayout class="flex flex-col">
   <main
     data-pagefind-ignore
-    class="px-2 w-full h-full grow flex flex-col gap-y-28 overflow-x-clip 2xl:gap-y-44"
+    class="px-10 w-full h-full grow flex flex-col gap-y-28 overflow-x-clip 2xl:gap-y-44"
   >
-    <ul class="my-10 flex flex-col items-center gap-y-3">
+    <ul class="my-10 flex flex-col items-center gap-y-3 list list-disc">
       {
-        allPosts.map((post) => (
-          <li class="w-full max-w-4xl">
-            <a href={`/${post.id}`} class="hover:underline underline-offset-4">
-              <span>{post.data.title} :</span>
-              <span class="text-sm">{post.data.description}</span>
-            </a>
-          </li>
-        ))
+        allPosts
+          .sort((a, b) => {
+            const dateA = new Date(a.data.pubDate);
+            const dateB = new Date(b.data.pubDate);
+            return dateB.getTime() - dateA.getTime();
+          })
+          .map((post) => (
+            <li class="w-full max-w-4xl list-item">
+              <a href={`/${post.id}`} class="hover:text-amber-400 text-p">
+                <span class="font-semibold xl:underline underline-offset-4">
+                  {post.data.title}
+                </span>
+                <span class="hidden xl:inline">: {post.data.description}</span>
+              </a>
+            </li>
+          ))
       }
     </ul>
   </main>
