@@ -3,6 +3,7 @@ import BaseHeader from "@/headers/base-header.astro";
 import "@/styles/global.css";
 import type { HTMLAttributes } from "astro/types";
 import "@/styles/fonts/font-noto-sans.css";
+import '@/styles/fonts/font-shantell-sans.css';
 import Navbar from "@/components/layout/navbar/navbar.astro";
 import Footer from "@/components/layout/footer/footer.astro";
 
@@ -18,8 +19,8 @@ const { title, class: className, ...attrs } = Astro.props;
   <head>
     <slot name="header">
       <BaseHeader
-        title={title ?? "My Blog Posts"}
-        description="My Blog Posts"
+        title={title ?? "rhymbit"}
+        description="A blog by rhymbit"
       />
     </slot>
   </head>

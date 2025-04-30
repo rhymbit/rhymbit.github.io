@@ -1,13 +1,25 @@
 ---
+import logo from "@/assets/logo/logo_32.png";
 import SearchPosts from "@/components/search-posts/search-posts.astro";
-import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import ThemeController from "./theme-controller/theme-controller.astro";
 
 const hideSearchPosts = Astro.url.pathname === "/";
 ---
 
-<div class="navbar bg-neutral lg:px-4">
+<div class="navbar lg:min-h-22 lg:px-4 border-b-2 border-base-content/40">
   <div class="navbar-start">
-    <a href="/" class="btn btn-ghost text-xl">My Blog</a>
+    <a
+      href="/"
+      class="group flex-center gap-x-1 text-2xl font-shantell-sans font-medium"
+    >
+      <Image
+        src={logo}
+        alt="Logo"
+        class="group-hover:rotate-360 transition duration-500"
+      />
+      rhymbit
+    </a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
@@ -15,6 +27,10 @@ const hideSearchPosts = Astro.url.pathname === "/";
     </ul>
   </div>
   <div class="navbar-end">
-    <a href="/all-posts" class="btn btn-ghost">All Posts</a>
+    <ThemeController />
+    <a
+      href="/all-posts"
+      class="btn btn-ghost text-xl font-bold font-shantell-sans">All Posts</a
+    >
   </div>
 </div>

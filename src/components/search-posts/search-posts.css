@@ -2,7 +2,7 @@
 @plugin '@/styles/plugins/fluid-typography-plugin.ts';
 
 @plugin "daisyui" {
-  themes: black --default;
+  themes: lofi --default, dark --prefersdark;
 }
 
 .search-posts-li {

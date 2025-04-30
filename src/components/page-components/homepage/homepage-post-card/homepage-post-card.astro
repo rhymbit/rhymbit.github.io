@@ -13,14 +13,14 @@ const { title, description, tags, pubDate } = post.data;
 
 <a
   href={`${post.id}`}
-  class="h-full card bg-base-300 hover:ring-4 hover:ring-yellow-900"
+  class="h-full card bg-base-300 hover:ring-4 hover:ring-secondary"
 >
   <div class="card-body">
     <h3 class="card-title flex-col items-start">
       <p class="italic text-sm font-normal">
         <DateTimeParsed date={pubDate} />
       </p>
-      <span class="font-black lg:text-h6">
+      <span class="font-black lg:text-2xl">
         {title}
       </span>
     </h3>
@@ -28,8 +28,8 @@ const { title, description, tags, pubDate } = post.data;
     <div class="flex flex-wrap gap-1">
       {
         tags?.map((tag) => (
-          <span class="badge py-3 bg-yellow-950 font-medium rounded-lg">
-            {tag}
+          <span class="badge bg-secondary/40 py-3 font-medium rounded-lg">
+            # {tag}
           </span>
         ))
       }

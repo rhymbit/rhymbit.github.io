@@ -15,8 +15,9 @@
   --breakpoint-5xl: 3700px; /* Large 4K Screens & TVs */
 
   --font-noto-sans: "Noto Sans", sans-serif;
+  --font-shantell-sans: "Shantell Sans", sans-serif;
 }
 
 @plugin "daisyui" {
-  themes: black --default;
+  themes: lofi --default, dark --prefersdark;
 }

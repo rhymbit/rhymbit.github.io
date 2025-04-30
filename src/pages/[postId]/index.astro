@@ -42,7 +42,7 @@ const { Content } = await render(post);
     description={post.data.description}
   />
   <main
-    class="py-5 lg:py-10 3xl:py-20 px-4 w-full h-full grow flex flex-col items-center overflow-x-clip"
+    class="py-5 lg:py-10 3xl:py-20 px-5 w-full h-full grow flex flex-col items-center overflow-x-clip"
   >
     <!-- Hero -->
     <PostPageHero post={post} />
@@ -54,8 +54,11 @@ const { Content } = await render(post);
     <!-- Post Content -->
     <section class="my-10 flex flex-col items-center gap-y-5">
       <div
-        class="prose lg:prose-lg xl:prose-xl 3xl:prose-2xl prose-strong:px-2 prose-strong:py-0.5 prose-strong:font-normal prose-strong:bg-primary prose-strong:text-primary-content
-          prose-code:text-amber-300"
+        class="prose lg:prose-lg xl:prose-xl 3xl:prose-2xl 
+          prose-strong:px-2 prose-strong:py-0.5 prose-strong:underline 
+          prose-strong:underline-offset-4 prose-strong:decoration-secondary
+          prose-strong:decoration-3 prose-strong:decoration-dashed
+          prose-code:font-shantell-sans md:prose-code:text-nowrap"
       >
         <Content />
       </div>
