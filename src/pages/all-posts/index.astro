@@ -10,7 +10,7 @@ const allPosts = await getCollection("posts");
     data-pagefind-ignore
     class="px-10 w-full h-full grow flex flex-col gap-y-28 overflow-x-clip 2xl:gap-y-44"
   >
-    <ul class="my-10 flex flex-col items-center gap-y-3 list list-disc">
+    <ul class="my-10 flex flex-col items-center gap-y-1 md:gap-y-3 list list-disc">
       {
         allPosts
           .sort((a, b) => {
@@ -21,7 +21,7 @@ const allPosts = await getCollection("posts");
           .map((post) => (
             <li class="w-full max-w-4xl list-item">
               <a href={`/${post.id}`} class="hover:text-amber-400 text-p">
-                <span class="font-semibold xl:underline underline-offset-4">
+                <span class="font-semibold underline underline-offset-4 decoration-1 decoration-dashed font-shantell-sans">
                   {post.data.title}
                 </span>
                 <span class="hidden xl:inline">: {post.data.description}</span>
