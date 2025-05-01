@@ -27,6 +27,8 @@ export const getStaticPaths = (async () => {
     };
   });
 
+  console.log(paths)
+
   return paths;
 }) satisfies GetStaticPaths;
 
@@ -41,7 +43,7 @@ const { Content } = await render(post);
     title={post.data.title}
     description={post.data.description}
   />
-  <main
+  <article
     class="py-5 lg:py-10 3xl:py-20 px-5 w-full h-full grow flex flex-col items-center overflow-x-clip"
   >
     <!-- Hero -->
@@ -54,8 +56,8 @@ const { Content } = await render(post);
     <!-- Post Content -->
     <section class="my-10 flex flex-col items-center gap-y-5">
       <div
-        class="prose lg:prose-lg xl:prose-xl 3xl:prose-2xl 
-          prose-strong:px-2 prose-strong:py-0.5 prose-strong:underline 
+        class="prose lg:prose-lg xl:prose-xl 3xl:prose-2xl
+          prose-strong:px-2 prose-strong:py-0.5 prose-strong:underline
           prose-strong:underline-offset-4 prose-strong:decoration-secondary
           prose-strong:decoration-3 prose-strong:decoration-dashed
           prose-code:font-shantell-sans md:prose-code:text-nowrap"
@@ -84,5 +86,5 @@ const { Content } = await render(post);
         )
       }
     </section>
-  </main>
+  </article>
 </BaseLayout>

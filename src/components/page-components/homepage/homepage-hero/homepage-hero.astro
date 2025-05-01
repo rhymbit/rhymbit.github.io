@@ -1,0 +1,26 @@
+---
+import logo from "@/assets/logo/logo_64.png";
+import logoBig from "@/assets/logo/logo_96.png";
+import SocialMediaLinks from "@/components/social-media-links/social-media-links.astro";
+import { Image } from "astro:assets";
+---
+
+<div
+  class="group max-w-3xl 3xl:max-w-7xl flex flex-col gap-y-4 text-center select-none"
+>
+  <h1 class="flex-center gap-x-1 font-bold font-shantell-sans">
+    <Image src={logo} alt="Logo" class="lg:hidden" />
+    <Image
+      src={logoBig}
+      alt="Logo"
+      class="hidden lg:inline group-hover:rotate-720 transition duration-700"
+    />
+    rhymbit
+  </h1>
+
+  <p class="text-h4 font-medium font-shantell-sans">I Sing Tech!!</p>
+
+  <div class="flex-center flex-wrap gap-4">
+    <SocialMediaLinks />
+  </div>
+</div>

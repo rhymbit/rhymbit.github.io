@@ -9,11 +9,13 @@ type Props = {
 const { post } = Astro.props;
 
 const { title, description, tags, pubDate } = post.data;
+
+console.log(post.id)
 ---
 
 <a
   href={`${post.id}`}
-  class="h-full card bg-base-300 hover:ring-4 hover:ring-secondary"
+  class="h-full card bg-base-300 hover:ring-2 hover:ring-secondary transition-shadow duration-300"
 >
   <div class="card-body">
     <h3 class="card-title flex-col items-start">
