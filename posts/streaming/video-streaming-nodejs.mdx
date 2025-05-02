@@ -1,0 +1,238 @@
+---
+title: Video Streaming with NodeJS
+description: A super easy way to stream large video files using NodeJs and ExpressJs packaged as a standalone executable.
+pubDate: 2024-05-19
+tags: ["nodejs", "expressjs", "streaming", "video-streaming"]
+---
+
+import MdxCode from 'mdx-components/mdx-code/mdx-code.astro';
+
+### Some nice things about this
+
+- It doesn’t just stream large videos files, it can **stream/send any file** be it large or small 😊.
+- On frontend side, all you gotta do is use simple fetch api 🤷🏻‍♂️, no fancy sh*t required.
+- I personally pair it with my Tauri apps as a sidecar to stream videos, 
+  because to do it with tauri itself requires writing Rust code.
+
+
+### Important Side Note
+
+_Just FYI, this note might be completely irrelevant in the future, but at the time of writing this post :-_
+
+- **NodeJs version 21+** has the ability to create single executables, but currently it’s an experimental feature.  
+- So you kinda have to write your code in CommonJs module system, because that’s the only thing that’s supported at the moment.  
+- Read more about this [here](https://nodejs.org/api/single-executable-applications.html) in NodeJS docs.
+
+
+### Packages you need
+
+In your `package.json`, you'll need these :-
+
+<MdxCode>
+```json
+"dependencies": {
+  "cors": "^2.8.5",
+  "express": "^4.19.2"
+},
+"devDependencies": {
+  "@rollup/plugin-commonjs": "^25.0.7",
+  "@rollup/plugin-json": "^6.1.0",
+  "@rollup/plugin-node-resolve": "^15.2.3",
+  "rollup": "^4.17.2"
+}
+```
+</MdxCode>
+
+### Folder Structure
+
+- Folder/File structure is kinda important and will look kinda like this :- 
+
+```
+node_modules
+src/
+  - index.js
+  routers/
+    - file.js // all the routers you'll need go here
+package.json
+```
+
+### Code
+
+- `src/routers/getFile.js`
+
+<MdxCode>
+```js
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+  
+const fileRouter = express.Router();
+  
+fileRouter.get("/", (req, res) => {
+  const { filepath = "" } = req.query;
+  
+  if (filepath === "") {
+    return res
+      .status(400)
+      .send(
+        "Please provide a filepath. Example: /file?filepath=folder1/folder2/file.txt. Visit / for more info."
+      );
+  }
+  
+  const finalFilepath = filepath.split(",").join(path.sep);
+  
+  // check if the file exists
+  fs.stat(finalFilepath, (_, stat) => {
+    if (stat && stat.isFile()) {
+      res.status(200).sendFile(finalFilepath);
+    } else {
+      res.status(404).send(`File not found at ${finalFilepath}`);
+    }
+  });
+});
+  
+module.exports = fileRouter;
+```
+</MdxCode>
+
+- `src/index.js`
+
+<MdxCode>
+```js
+const cors = require("cors");
+const express = require("express");
+const getFileRouter = require("./routers/getFile");
+/* 
+More about these 2 👇🏻 in Bonus section
+const getFileFromCurrentDirectoryRouter = require("./routers/getFileFromCurrentDirectory");
+const getCurrentDirectoryPathRouter = require("./routers/getCurrentDirectoryPath");
+*/
+  
+const app = express();
+app.use(cors());
+app.use("/file", getFileRouter);
+/*
+ More about these 2 👇🏻 in Bonus section
+app.use("/cwd", getCurrentDirectoryPathRouter);
+app.use("/file-cwd", getFileFromCurrentDirectoryRouter); 
+*/
+  
+app.get("/", (_, res) => {
+  const response = {
+    endpointsGET: {
+      getFile: "/file?filepath=folder1/folder2/file.txt",
+      /*
+      More about these 2 👇🏻 in Bonus section
+      getCurrentDirectoryPath: "/cwd?mode=development(or production)",
+      getFileFromCurrentDirectory:
+        "/file-cwd?mode=development(or production)&filepath=folder1/folder2/file.txt",
+    */
+   },
+    message:
+      "Welcome to the file server. Please visit the endpoints to get the desired output. Change the mode to production or development to see the difference in the output.",
+  };
+  
+  res.status(200).send(response);
+});
+  
+app.listen(11111, () => {
+  console.log("Server is running on http://localhost:11111");
+});
+```
+</MdxCode>
+
+### Packaging
+
+Just follow the steps in the [NodeJs Single Executable](/nodejs-standalone-executable) post and you’re good to go 🚀.
+
+Here’s some scripts you can use in your package.json to make your life easier 😮‍💨. 
+
+```json
+"scripts": {
+  "build": "rollup -c",
+  "start": "node dist/index.js"
+}
+```
+
+### Bonus
+
+So if you noticed these lines in the src/index.js file up there :- 
+
+```
+// More about these 2 👇🏻 in Bonus section
+```
+
+ and wondering what tf is that all bout 🤨 :-
+
+- If you package your app as a standalone executable, and want to stream files 
+  from the current directory where the executable is; Why 🤨? :-
+- Because your app isn’t installable but is actually portable, then consider using 
+  these 2 routers 👇🏻 (because I use them in my projects all the time)
+
+`src/routers/getCurrentDirectoryPath.js`
+
+<MdxCode>
+```js
+const express = require("express");
+const path = require("path");
+  
+const getCurrentDirectoryPathRouter = express.Router();
+  
+getCurrentDirectoryPathRouter.get("/", (req, res) => {
+  const { mode = "development" } = req.query;
+  
+  const currentDirPath =
+    mode === "development"
+      ? path.join(__dirname, "..", "..", "..")
+      : path.join(__dirname);
+  res.send(`Current directory path: ${currentDirPath}. Current mode: ${mode}. Change mode by adding ?mode=production or ?mode=development to the URL.`);
+});
+  
+module.exports = getCurrentDirectoryPathRouter;
+```
+</MdxCode>
+
+`src/routers/getFileFromCurrentDirectory.js`
+
+<MdxCode>
+```js
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+  
+const getFileFromCurrentDirectoryRouter = express.Router();
+  
+getFileFromCurrentDirectoryRouter.get("/", (req, res) => {
+  const { mode = "development", filepath = "" } = req.query;
+  
+  if (filepath === "") {
+    return res
+      .status(400)
+      .send(
+        "Please provide a filepath. Example: /file-from-current-directory?filepath=folder1/folder2/file.txt. Visit / for more info."
+      );
+  }
+  
+  const filepathCorrected = filepath.split(",").join(path.sep);
+  const finalFilepath =
+    mode === "development"
+      ? path.join(__dirname, "..", "..", "..", filepathCorrected)
+      : path.join(__dirname, filepathCorrected);
+    
+  // check if the file exists
+  fs.stat(finalFilepath, (_, stat) => {
+    if (stat && stat.isFile()) {
+      res.status(200).sendFile(finalFilepath);
+    } else {
+      res
+        .status(404)
+        .send(
+          `File not found at ${finalFilepath}. Current mode: ${mode}. Change mode by adding ?mode=production or ?mode=development to the URL.`
+        );
+    }
+  });
+});
+  
+module.exports = getFileFromCurrentDirectoryRouter;
+```
+</MdxCode>

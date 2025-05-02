@@ -24,7 +24,7 @@ export default defineConfig({
     mdx({
       syntaxHighlight: "shiki",
       shikiConfig: {
-        theme: "rose-pine-moon",
+        theme: "catppuccin-macchiato",
         wrap: true,
       },
       gfm: false,

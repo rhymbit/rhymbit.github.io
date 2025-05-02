@@ -1,0 +1,36 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<div class="relative">
+  <button
+    class="absolute top-1 right-1 btn btn-ghost btn-circle"
+    data-code-copy-button
+    aria-label="Copy code"
+  >
+    <Icon name="copy" class="text-h5 text-white" />
+  </button>
+
+  <div class="mt-5 xl:mt-3">
+    <slot />
+  </div>
+</div>
+
+<!-- code block copy button -->
+<script>
+  function copyToClipboard(event: MouseEvent) {
+    const buttonElement = event.currentTarget as HTMLButtonElement;
+    // @ts-expect-error
+    const codeBlock = buttonElement.closest("[data-code-copy-button]")
+      .nextElementSibling as HTMLElement;
+    const codeContent = codeBlock.innerText;
+
+    navigator.clipboard.writeText(codeContent);
+  }
+
+  const copyButtons = document.querySelectorAll("[data-code-copy-button]");
+  copyButtons.forEach((button) => {
+    // @ts-expect-error
+    button.addEventListener("click", copyToClipboard);
+  });
+</script>

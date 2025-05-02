@@ -5,6 +5,7 @@ import BaseHeader from "@/headers/base-header.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
+import '@/styles/fonts/font-jetbrains-mono.css';
 
 export const getStaticPaths = (async () => {
   const allPosts = await getCollection("posts");
@@ -59,10 +60,12 @@ const { Content } = await render(post);
     <section class="my-10 flex flex-col items-center gap-y-5">
       <div
         class="prose lg:prose-lg xl:prose-xl 3xl:prose-2xl
-          prose-strong:px-2 prose-strong:py-0.5 prose-strong:underline
-          prose-strong:underline-offset-4 prose-strong:decoration-secondary
-          prose-strong:decoration-3 prose-strong:decoration-dashed
-          prose-code:font-shantell-sans md:prose-code:text-nowrap"
+        prose-headings:font-shantell-sans prose-headings:before:content-['#_']
+        prose-strong:px-2 prose-strong:py-0.5 prose-strong:underline
+        prose-strong:underline-offset-4 prose-strong:decoration-secondary
+        prose-strong:decoration-3 prose-strong:decoration-dashed
+        md:prose-code:text-nowrap
+        prose-a:no-underline prose-a:text-info prose-a:font-semibold prose-a:hover:text-accent prose-a:duration-200 prose-a:font-shantell-sans"
       >
         <Content />
       </div>
