@@ -27,8 +27,6 @@ export const getStaticPaths = (async () => {
     };
   });
 
-  console.log(paths)
-
   return paths;
 }) satisfies GetStaticPaths;
 
@@ -42,6 +40,10 @@ const { Content } = await render(post);
     slot="header"
     title={post.data.title}
     description={post.data.description}
+    imagePublic={{
+      filepath: post.data.socialImage.filepathPublic,
+      alt: post.data.socialImage.alt,
+    }}
   />
   <article
     class="py-5 lg:py-10 3xl:py-20 px-5 w-full h-full grow flex flex-col items-center overflow-x-clip"

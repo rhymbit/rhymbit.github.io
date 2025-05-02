@@ -15,6 +15,9 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      allowedHosts: ["copper-locate-no-lost.trycloudflare.com"],
+    },
   },
 
   integrations: [
