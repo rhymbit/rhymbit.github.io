@@ -3,7 +3,7 @@ import BaseHeader from "@/headers/base-header.astro";
 import "@/styles/global.css";
 import type { HTMLAttributes } from "astro/types";
 import "@/styles/fonts/font-noto-sans.css";
-import '@/styles/fonts/font-shantell-sans.css';
+import "@/styles/fonts/font-shantell-sans.css";
 import Navbar from "@/components/layout/navbar/navbar.astro";
 import Footer from "@/components/layout/footer/footer.astro";
 
@@ -20,21 +20,19 @@ const { title, class: className, ...attrs } = Astro.props;
     <slot name="header">
       <BaseHeader
         title={title ?? "rhymbit"}
-        description="A blog by rhymbit"
+        description="A blog where you'll find some interesting things to read. No signups, no bullshit. Take a look around."
       />
     </slot>
   </head>
 
   <body class={`min-h-screen ${className}`} {...attrs}>
-
     <Navbar />
-      <slot />
+    <slot />
     <Footer />
   </body>
 </html>
 
 <style is:global>
-
   :root {
     font-family: "Noto Sans", sans-serif;
   }

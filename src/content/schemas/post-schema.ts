@@ -10,10 +10,16 @@ export const postSchema = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.date(), // yyyy-mm-dd
-    socialImage: z.object({
-      filepathPublic: z.string(),
-      alt: z.string(),
-    }),
+    socialImage: z
+      .object({
+        filepathPublic: z.string(),
+        alt: z.string(),
+      })
+      .optional()
+      .default({
+        filepathPublic: "images/rhymbit-default-social-preview.jpg",
+        alt: "rhymbit",
+      }),
     tags: z.array(z.string()).min(1).optional(),
   }),
 });

@@ -41,8 +41,8 @@ const { Content } = await render(post);
     title={post.data.title}
     description={post.data.description}
     imagePublic={{
-      filepath: post.data.socialImage.filepathPublic,
-      alt: post.data.socialImage.alt,
+      filepath: post.data?.socialImage?.filepathPublic,
+      alt: post.data?.socialImage?.alt,
     }}
   />
   <article
