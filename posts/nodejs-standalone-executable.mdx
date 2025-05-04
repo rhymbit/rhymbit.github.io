@@ -2,5 +2,133 @@
 title: NodeJS Standalone Executable
 description: Learn how to create a single or standalone distributable application for your NodeJs project.
 pubDate: 2024-05-07
-tags: ["nodejs", "standalone-executable"]
+tags: ["nodejs", "standalone-executable", "js", "javascript"]
 ---
+
+import MdxCode from 'mdx-components/mdx-code/mdx-code.astro';
+
+## Short Intro 🤏🏻
+
+Everyone remembers that Vercel’s pkg package ( [repo link](https://github.com/vercel/pkg) )? 
+They’ve archived that repo and no longer maintain it, and that’s because :-
+
+- **NodeJs from Version 21+** itself has the ability to create single executables.
+- At the time of writing this post, it’s still **an experimental feature**, but it’s there and it works, and I’ll show you how.
+- And If you try and use the Vercel's pkg package with NodeJs version 18+, it doesn't work.
+
+## Note 📝
+
+Whatever JS code you write to package, make sure you **use the CommonJs module system**.
+
+> The single executable application feature currently only supports running a single 
+embedded script using the CommonJS module system.
+
+More about this in [NodeJs Docs.](https://nodejs.org/api/single-executable-applications.html)
+
+## How to Package? 🎁
+
+Now I'm Assuming you’ve written your NodeJs app and you’re ready to package it.
+
+For me, I wrote a bunch of ExpressJs code in a src folder and the folder/file structure looks like this :- 
+
+```
+node_modules
+src/
+  - index.js
+  routers/
+    - file.js
+package.json
+```
+
+Doesn’t matter what sphagetti code you have in there, as long as it’s in src, you’re good to go 😊. 
+
+We’re gonna use the almighty **Rollup.Js** to bundle our code and **create a single** `index.js` file that’ll hold everything.
+
+### Adding Rollup to Project
+
+Add these packages to your project.
+Just a simple `npm install <package>` and you’re good to go.
+
+- `rollup`
+- `@rollup/plugin-node-resolve`
+- `@rollup/plugin-json`
+- `@rollup/plugin-commonjs`
+
+<br />
+
+Now create a **`rollup.config.mjs`** file at the root of your project.
+
+<MdxCode>
+```js
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import json from "@rollup/plugin-json";
+  
+export default {
+  input: "src/index.js",
+  output: {
+    file: "dist/index.js",
+    format: "cjs",
+  },
+  plugins: [
+    resolve(), // Resolve modules from node_modules
+    commonjs(), // Convert CommonJS modules to ES6
+    json(), // Handle JSON files
+  ],
+};
+```
+</MdxCode>
+
+### Building Project
+
+```bash
+npx rollup -c
+```
+
+Run this command to build your project.
+
+Or
+
+You can install rollup globally using your fav package manager (me 💗 pnpm) 
+and just run `rollup -c` in your terminal inside the project folder.
+
+Now, Running this command should create one (just one ☝🏻) `index.js` inside the `dist` folder. 
+
+## Creating Standalone Executable
+
+I have **NodeJs v22** installed on my **Windows PC**. 
+
+Let’s quickly go through the following steps and get our hands on that single executable file 😎 :-
+
+- Create a folder called blob in the root of your project.
+
+- Create a file called sea-config.json in the root of your project and add this to it :- 
+  ```json
+  {
+    "main": "./dist/index.js",
+    "output": "./blob/sea-prep.blob"
+  }
+  ```
+- Copy NodeJs executable file to the project root with this command :- 
+  ```bash
+  node -e "require('fs').copyFileSync(process.execPath, 'app.exe')"
+  ```
+  That’s right, we’re copying the actual NodeJs executable installed on your system and we’ll **“inject”** our code into it.
+
+- **Optional (for Windows only)**  
+  <small>_This step is not worth it if you don’t have a license for the desktop app that you're creating._</small>  
+  Remove the signature from this copied binary file using the [signtool](https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool) 
+  by running `signtool remove /s app.exe`
+
+- Inject the Blog into the NodeJs executable binary :-
+  ```bash
+    npx postject app.exe NODE_SEA_BLOB ./blob/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+  ```
+
+- **Optional (for Windows only)**  
+  <small>_Again, this step is not worth it if you don’t have a license for the desktop app that you're creating._</small>  
+  Sign the app using the [signtool](https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool)
+  by running `sign /fd SHA256 app.exe`
+
+**And that’s it** 🥳🥳🥳. You should have a single executable file in the root of your project called **app.exe**. 
+Use it however you like. 

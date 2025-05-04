@@ -19,5 +19,5 @@
 }
 
 @plugin "daisyui" {
-  themes: lofi --default, dark --prefersdark;
+  themes: fantasy --default, dark --prefersdark;
 }

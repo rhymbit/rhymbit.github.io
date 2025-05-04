@@ -2,7 +2,7 @@
 @plugin '@/styles/plugins/fluid-typography-plugin.ts';
 
 @plugin "daisyui" {
-  themes: lofi --default, dark --prefersdark;
+  themes: fantasy --default, dark --prefersdark;
 }
 
 .search-posts-li {
@@ -22,5 +22,5 @@
 }
 
 .search-posts-a-tags {
-  @apply p-0.5 px-1.5 bg-secondary/40 text-xs font-medium rounded-sm;
+  @apply p-0.5 px-1.5 bg-secondary/40 text-xs font-semibold rounded-sm;
 }

@@ -12,8 +12,8 @@
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
   font-family: 'Shantell Sans';
   font-style: normal;
-  font-weight: 700;
-  src: url('/fonts/shantell-sans/shantell-sans-v10-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  font-weight: 600;
+  src: url('/fonts/shantell-sans/shantell-sans-v10-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 /* shantell-sans-800 - latin */

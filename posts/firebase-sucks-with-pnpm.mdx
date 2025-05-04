@@ -16,8 +16,8 @@ then just try :-
 - `pnpm install --shamefully-hoist` instead of normal `pnpm install`
 
 **Pnpm** has this strict module structure and **firebase** has deep
-dependencies that vite cannot resolve (which uses rollup under the hood) if
-dependencies were installed using `pnpm install` instead of `pnpm install --shamefully-hoist`.
+dependencies that **vite** cannot resolve (which uses **rollup** under the hood) if
+dependencies are installed using `pnpm install`.
 
 The `pnpm install --shamefully-hoist` install the dependencies just like `npm install`,
 which is messy, but that's what works for now.

@@ -1,0 +1,91 @@
+---
+title: Easier File Read and Write in ElectronJS
+description: An easier way to read and write files in ElectronJS
+pubDate: 2024-02-06
+tags: [electronjs, nodejs, js, javascript]
+---
+
+import MdxCode from 'mdx-components/mdx-code/mdx-code.astro';
+
+### Dependencies that you'll need 📝
+
+- [cors](https://www.npmjs.com/package/cors)
+- [express](https://www.npmjs.com/package/express)
+
+### Setting up ExpressJs Server
+
+You know about that `index.js` or that `index.ts` file you have in your electron project,
+which has the code to create the main window and all that?
+
+One way to identify that file is it'll surely have a function called `createWindow` inside it.
+
+Find that file and call your ExpressJs server in it. I do it at the top, right after the imports.
+```javascript
+const expressApp = startServer();
+expressApp.listen(8000, () => console.log('express app listening on port 8000'));
+```
+
+That's about it! Honestly 😅, couldn't get any more easy, right?  
+
+You can now use `fs` and `path` modules to read and write files.  
+
+**A tip 👇🏻**  
+An effective 💪🏻 and awesome ⭐ way to read files is through using a simple 
+[file search algorithm](/recursive-file-search) that I've wrote about earlier.
+
+### How to Read Files?
+
+This is a simple example of how to read files in ExpressJs.
+
+- The `startServer` function.
+<MdxCode>
+```ts
+export default function startServer() {
+  const expressApp = express();
+  expressApp.use(cors());
+  
+  expressApp.get(`/`, (_, res) => {
+    res.statusCode = 200;
+    res.contentType('text/plain');
+    res.send(
+     `Server is up and running. 
+      Requst files from /files/{fileName}`
+    );
+  });
+
+  expressApp.use('/files', fileRouter);
+
+  return expressApp;
+}
+```
+</MdxCode>
+
+- And here's the `fileRouter` from above
+
+<MdxCode>
+```ts
+const router = express.Router();
+  
+router.get('/:filename', (req, res) => {
+  const filename = req.params.filename;
+  
+  // 👇🏻 find this `fileSearch` algorithm in Related Posts dropdown
+  fileSearch(
+    pathOfDirectoryToSearchIn, 
+    filename, (err: Error, resultArr: string[]) => {
+      if (err) {
+        res.statusCode = 500;
+        res.contentType('text/plain');
+        res.send(err);
+      } else {
+        res.statusCode = 200;
+        // 👇🏻 or 'application/json' or whatever based on data type
+        res.contentType('text/plain');
+        resultArr.length > 0 ? 
+          res.sendFile(resultArr[0]) : 
+          res.send('No file found');
+      }
+    });
+  });
+```
+</MdxCode>

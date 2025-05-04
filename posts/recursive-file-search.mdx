@@ -1,0 +1,64 @@
+---
+title: Recursive File Search
+description: A Recursive File Search Algorithm in JavaScript
+pubDate: 2024-02-05
+tags: ["nodejs", "js", "javascript"]
+---
+
+import MdxCode from 'mdx-components/mdx-code/mdx-code.astro';
+
+## Code
+
+Now the code might look a bit scary 👻, but just go through it line by line.
+
+<MdxCode>
+```js
+// substitute with `import` statements if type is `module`
+const fs = require("fs");
+const path = require("path");
+
+function fileSearchRecursive(dirToSearchIn, fileToSearch, callbackFn) {
+  let results = [];
+
+  fs.readdir(dirToSearchIn, (err, list) => {
+    if (err) return callbackFn(err, []);
+
+    let pending = list.length;
+    if (!pending) return callbackFn(null, results);
+
+    list.forEach((file) => {
+      const filename = file;
+      file = path.join(dirToSearchIn, file);
+
+      fs.stat(file, (_, stat) => {
+        if (stat && stat.isDirectory()) {
+          fileSearchRecursive(file, fileToSearch, (_, res) => {
+            results = results.concat(res);
+            if (!--pending) callbackFn(null, results);
+          });
+        } else {
+          if (filename.toLowerCase() === fileToSearch.toLowerCase()) {
+            results = results.concat(file);
+          }
+          if (!--pending) {
+            callbackFn(null, results);
+          }
+        }
+      });
+    });
+  });
+}
+```
+</MdxCode>
+
+And call it like this:
+
+```js
+fileSearchRecursive(__dirname, "rhymbit.exe", (err, res) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(res);
+  }
+});
+```
