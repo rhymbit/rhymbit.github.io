@@ -19,5 +19,7 @@
 }
 
 @plugin "daisyui" {
-  themes: fantasy --default, dark --prefersdark;
+  themes: fantasy --default, black --prefersdark;
 }
+
+@custom-variant dark (&:where([data-theme=black], [data-theme=black] *));

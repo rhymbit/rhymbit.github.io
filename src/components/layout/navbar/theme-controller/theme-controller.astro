@@ -39,18 +39,18 @@
   const themeSwitchCheckbox = document.getElementById("theme-switch-checkbox");
 
   const lightThemeName = "fantasy";
-  const darkThemeName = "dark";
+  const darkThemeName = "black";
 
   function setLightTheme() {
     document.documentElement.setAttribute("data-theme", lightThemeName);
-    themeSwitchCheckbox.value = "light";
+    themeSwitchCheckbox.value = lightThemeName;
     themeSwitchCheckbox.checked = false;
     localStorage.setItem("theme", "light");
   }
 
   function setDarkTheme() {
     document.documentElement.setAttribute("data-theme", darkThemeName);
-    themeSwitchCheckbox.value = "dark";
+    themeSwitchCheckbox.value = darkThemeName;
     themeSwitchCheckbox.checked = true;
     localStorage.setItem("theme", "dark");
   }

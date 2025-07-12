@@ -1,0 +1,50 @@
+---
+title: NodeJs Not Reading Env Vars Correctly
+description: If your NodeJs project doesn't read some of your env variables correctly, because they've got a \n, try this.
+pubDate: 2025-07-12
+tags: ["nodejs", "environment variables", "env vars", "env", "environment"]
+socialImage:
+  filepathPublic: /images/posts/nodejs-not-reading-env-variables-correctly.jpg
+  alt: NodeJs Not Reading Env Vars Correctly
+---
+
+## The Problemo
+
+Say you’re storing something like a private key or a multiline secret in your environment variables, like this:
+
+```env
+MY_SECRET=-----BEGIN PRIVATE KEY-----\nABC123\n-----END PRIVATE KEY-----
+```
+
+_👆🏻 note the `\n`s_
+
+And in your NodeJs app, you read it like this :-
+
+```js
+const key = process.env.MY_SECRET;
+```
+
+What NodeJs doesn't do, is treat those `\n` characters as new lines and
+instead treat them as literal characters `"\n"`.
+
+It'll end up giving you an output like this :-
+
+```env
+"-----BEGIN PRIVATE KEY-----\\nABC123\\n-----END PRIVATE KEY-----"
+```
+
+So stuff breaks - especially if you're passing that to something like
+crypto, Firebase, or AWS SDKs that expect real line breaks.
+
+These SDKs won't even tell you what the actual problem is and you'll keep banging your
+head against the wall for hours.
+
+## The Fix
+
+Just do this :-
+
+```js
+const key = process.env.MY_SECRET.replace(/\\n/g, "\n");
+```
+
+This converts `\n` string into an actual newline character.

@@ -10,16 +10,16 @@
     "postbuild": "pagefind --site dist"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.2.5",
-    "@astrojs/sitemap": "^3.3.1",
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/sitemap": "^3.4.1",
     "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.4",
-    "astro": "^5.7.9",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.11.0",
     "astro-icon": "^1.1.5",
-    "tailwindcss": "^4.1.4"
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
-    "daisyui": "^5.0.30",
+    "daisyui": "^5.0.46",
     "pagefind": "^1.3.0"
   }
 }
