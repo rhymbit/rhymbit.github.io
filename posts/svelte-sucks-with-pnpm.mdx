@@ -1,0 +1,38 @@
+---
+title: Svelte Sucks With PnPm
+description: There's definitely something wrong with Svelte & SvelteKit when using pnpm
+pubDate: 2025-08-01
+tags: ["svelte", "sveltekit", "pnpm", "npm"]
+socialImage:
+  filepathPublic: "/images/posts/svelte-sucks-with-pnpm.jpg"
+  alt: "Svelte Sucks With PnPm"
+---
+
+export const discordQuestionLink = 'https://discord.com/channels/457912077277855764/1400823190531604530';
+
+There's no way to properly explain this, so I'll start by linking a discord
+example of what's going on (it's also got nice screenshots).
+
+[Discord Link](https://discord.com/channels/457912077277855764/1400823190531604530)
+
+If you can't access discord, then here's what happened:-  
+> I got this error `lifecycle_outside_component` in a newly created SvelteKit project.
+It's related to using `onMount` outside of `<script></script>`, which nobody will do, but
+thats what that error said.  
+Crazy thing, I didn't even had a single `onMount` anywhere in my code, which was just 3 `.svelte` files, since
+it was a brand new project.
+
+And `lifecycle_outside_component` error is not the only one I've got when working with
+a Svelte project with pnpm.
+
+I've always wondered why Svelte & SvelteKit docs never mention other ways to create
+a new project besides with `npm`.
+
+![getting-started](@/assets/posts/svelte-sucks-with-pnpm/getting-started.png)
+
+There's definitely some errors & insane bugs you get only when using `pnpm` or `yarn`
+but they magically disappear when using `npm`.
+
+I don't know the reason, and nobody in their Discord have any idea either.
+
+For now **the only solution** to all these problems is to simply use `npm`.
