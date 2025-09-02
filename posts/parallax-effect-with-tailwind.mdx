@@ -1,0 +1,36 @@
+---
+title: Parallax Effect with Tailwind
+description: How to create a parallax effect with Tailwind
+pubDate: 2025-09-02
+tags: ["tailwind", "css", "parallax"]
+socialImage:
+  filepathPublic: "/images/posts/parallax-effect-with-tailwind.jpg"
+  alt: "Parallax Effect with Tailwind"
+---
+
+import MdxCode from 'mdx-components/mdx-code/mdx-code.astro';
+
+## Parallax Effect
+
+Before testing this out, remember to replace `image-url` with the URL of the image you want to use as the background.
+
+<MdxCode>
+```html
+<div class="relative h-screen overflow-y-auto overflow-x-hidden perspective-[0.5px]">
+  <!-- Parallax background -->
+  <div 
+    class="absolute inset-0 -z-10 translate-z-[-1px] scale-200 bg-center bg-cover" 
+    style="background-image: url('image-url');">
+  </div>
+
+  <!-- Content -->
+  <section class="min-h-screen flex items-center justify-center text-white text-7xl font-black">
+    Parallax Effect
+  </section>
+
+  <section class="min-h-screen bg-black text-slate-200 flex items-center justify-center text-6xl">
+    2nd Page as a Filler
+  </section>
+</div>
+```
+</MdxCode>
