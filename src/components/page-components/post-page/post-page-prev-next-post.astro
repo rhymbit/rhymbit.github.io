@@ -12,7 +12,7 @@ const { post, prevPost = true } = Astro.props;
 
 <a
   href={`/${post.id}`}
-  class="h-full card min-w-70 max-w-sm bg-secondary/10 ring-0 dark:ring-1 hover:ring-2 ring-secondary transition-shadow duration-300"
+  class="h-full card min-w-70 max-w-sm bg-secondary/10 hover:-translate-y-1 transition-transform duration-300 shadow-sm shadow-base-content/20"
 >
   <div class="card-body flex flex-row justify-around items-center">
     {

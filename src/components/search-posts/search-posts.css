@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@plugin '@/styles/plugins/fluid-typography-plugin.ts';
+@plugin '../../styles/plugins/fluid-typography-plugin.ts';
 
 @plugin "daisyui" {
   themes: fantasy --default, dark --prefersdark;

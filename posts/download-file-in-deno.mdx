@@ -1,0 +1,63 @@
+---
+title: Download File in Deno
+description: Learn how to download files using Deno, even shows progress.
+pubDate: 2026-22-01
+tags: ["deno", "typescript", "download"]
+---
+
+import MdxCode from '../mdx-components/mdx-code/mdx-code.astro';
+
+## Deno File Download
+
+This code works absolutely fine, but I'll still call it work in progress because there's
+so many features I can add to this and make a full fledged library and then publish it to jsr (maybe).
+
+<MdxCode>
+```ts
+const encoder = new TextEncoder();
+
+function renderProgress(downloaded: number, total: number) {
+  if (total > 0) {
+    const percent = ((downloaded / total) * 100).toFixed(2);
+    Deno.stdout.writeSync(encoder.encode(`\rDownloading... ${percent}%`));
+  } else {
+    Deno.stdout.writeSync(encoder.encode(`\rDownloaded ${downloaded} bytes`));
+  }
+}
+
+export async function downloadFile(url: string, outputPath: string) {
+
+  const response = await fetch(url);
+
+  if (!response.ok || !response.body) {
+    throw new Error(`Failed to download file from - ${url} : ${response.status}`)
+  }
+
+  const totalBytes = Number(response.headers.get('content-length')) || 0;
+
+  const file = await Deno.open(outputPath, { write: true, create: true, truncate: true });
+
+  let downloadedBytes = 0;
+
+  try {
+
+    const reader = response.body.getReader();
+
+    while(true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      if (value) {
+        await file.write(value);
+        downloadedBytes += value.length;
+        renderProgress(downloadedBytes, totalBytes);
+      }
+    }
+
+    Deno.stdout.writeSync(encoder.encode(`\nDownload completed: ${outputPath}\n`));
+  } finally {
+    file.close();
+  }
+}
+```
+</MdxCode>
