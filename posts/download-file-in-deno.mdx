@@ -26,7 +26,6 @@ function renderProgress(downloaded: number, total: number) {
 }
 
 export async function downloadFile(url: string, outputPath: string) {
-
   const response = await fetch(url);
 
   if (!response.ok || !response.body) {
@@ -34,13 +33,10 @@ export async function downloadFile(url: string, outputPath: string) {
   }
 
   const totalBytes = Number(response.headers.get('content-length')) || 0;
-
   const file = await Deno.open(outputPath, { write: true, create: true, truncate: true });
-
   let downloadedBytes = 0;
 
   try {
-
     const reader = response.body.getReader();
 
     while(true) {
